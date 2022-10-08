@@ -4,6 +4,4 @@
 
 ### 1. HTTP server for API
 
-### 2. Websocket server for Chat
-
-### 3. Batch server for background process
+### 2. Batch server for background process

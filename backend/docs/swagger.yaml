@@ -1,0 +1,493 @@
+basePath: /
+definitions:
+  database.CreateCommentDto:
+    properties:
+      description:
+        type: string
+      nickname:
+        type: string
+    type: object
+  database.UpdateCommentDto:
+    properties:
+      description:
+        type: string
+    type: object
+  http.BoolResponse:
+    properties:
+      success:
+        type: boolean
+    type: object
+  http.DefaultDataResponse:
+    properties:
+      result: {}
+      success:
+        type: boolean
+    type: object
+  http.DefaultResponse:
+    properties:
+      message:
+        type: string
+    type: object
+  http.GetLoginRequestIDBody:
+    properties:
+      account:
+        type: string
+    type: object
+  http.GetNicknameBody:
+    properties:
+      nickname:
+        type: string
+    type: object
+  http.GetOnDemandByIDResponse:
+    properties:
+      result:
+        $ref: '#/definitions/http.LillyVideo'
+      success:
+        type: boolean
+    type: object
+  http.GetOnDemandResponse:
+    properties:
+      result:
+        items:
+          $ref: '#/definitions/http.LillyVideo'
+        type: array
+      success:
+        type: boolean
+    type: object
+  http.GetUserInfoBody:
+    properties:
+      account:
+        type: string
+    type: object
+  http.LillyVideo:
+    properties:
+      account:
+        type: string
+      categories:
+        items:
+          type: string
+        type: array
+      cid:
+        type: string
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      nickname:
+        type: string
+      thumbnail_uri:
+        type: string
+      type:
+        type: string
+      video_uri:
+        type: string
+      views:
+        type: integer
+    type: object
+  http.LoginResponse:
+    properties:
+      request_id:
+        type: string
+    type: object
+  http.SignUpBody:
+    properties:
+      account:
+        type: string
+      nickname:
+        type: string
+    type: object
+host: 3.36.115.152:8080
+info:
+  contact:
+    email: asap0208@gmail.com
+    name: Backend-Tech
+  description: This is API Documentation Lillybox Backend
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Lillybox Backend
+  version: "0.1"
+paths:
+  /api/v1/auth/check:
+    post:
+      consumes:
+      - application/json
+      description: 닉네임으로 유저를 조회합니다.
+      parameters:
+      - description: CheckNickname Body
+        in: body
+        name: UserAccount
+        required: true
+        schema:
+          $ref: '#/definitions/http.GetNicknameBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.BoolResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.DefaultResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/http.BoolResponse'
+      summary: CheckNickname
+      tags:
+      - auth
+  /api/v1/auth/request_id:
+    post:
+      consumes:
+      - application/json
+      description: 유저가 있다면 UUID를 받아옵니다. 회원가입되지 않은 유저라면 null을 반환합니다.
+      parameters:
+      - description: GetLoginRequestID Body
+        in: body
+        name: UserAccount
+        required: true
+        schema:
+          $ref: '#/definitions/http.GetLoginRequestIDBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.LoginResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.DefaultResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/http.DefaultDataResponse'
+      summary: Get login request ID
+      tags:
+      - auth
+  /api/v1/auth/sign:
+    post:
+      consumes:
+      - application/json
+      description: 유저를 insert하고 유저 정보를 가져옵니다.
+      parameters:
+      - description: SignUp Body
+        in: body
+        name: UserInfo
+        required: true
+        schema:
+          $ref: '#/definitions/http.SignUpBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.DefaultDataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.DefaultResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/http.DefaultResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.DefaultResponse'
+      summary: SignUp
+      tags:
+      - auth
+  /api/v1/auth/user:
+    post:
+      consumes:
+      - application/json
+      description: 유저의 정보를 조회합니다.
+      parameters:
+      - description: GetUserInfo Body
+        in: body
+        name: UserAccount
+        required: true
+        schema:
+          $ref: '#/definitions/http.GetUserInfoBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.DefaultDataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.DefaultResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.DefaultResponse'
+      summary: GetUserInfo
+      tags:
+      - auth
+  /api/v1/reports/comments/{id}:
+    patch:
+      consumes:
+      - application/json
+      description: 해당 댓글을 신고합니다.
+      parameters:
+      - description: ReportCommentByID Body
+        in: body
+        name: UserNickname
+        required: true
+        schema:
+          $ref: '#/definitions/http.GetNicknameBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.BoolResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.DefaultDataResponse'
+      summary: ReportCommentByID
+      tags:
+      - report
+  /api/v1/reports/videos/{id}:
+    patch:
+      consumes:
+      - application/json
+      description: 해당 비디오를 신고합니다.
+      parameters:
+      - description: ReportOnDemandByID Body
+        in: body
+        name: Nickname
+        required: true
+        schema:
+          $ref: '#/definitions/http.GetNicknameBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.BoolResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.DefaultDataResponse'
+      summary: ReportOnDemandByID
+      tags:
+      - report
+  /api/v1/videos:
+    get:
+      consumes:
+      - application/json
+      description: 카테고리 별 전체 비디오를 조회합니다.
+      parameters:
+      - description: Offset
+        in: query
+        name: offset
+        required: true
+        type: string
+      - description: CategoryID
+        in: query
+        name: categoryId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.GetOnDemandResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.GetOnDemandResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/http.GetOnDemandResponse'
+      summary: GetOnDemands
+      tags:
+      - videos
+  /api/v1/videos/{id}:
+    get:
+      consumes:
+      - application/json
+      description: 비디오 상세 페이지를 조회합니다.
+      parameters:
+      - description: Video ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.GetOnDemandByIDResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.DefaultDataResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/http.DefaultDataResponse'
+      summary: GetOnDemandByID
+      tags:
+      - videos
+    patch:
+      consumes:
+      - application/json
+      description: 비디오를 업데이트합니다.
+      parameters:
+      - description: Video ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.BoolResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.DefaultDataResponse'
+      summary: PatchOnDemandByID
+      tags:
+      - videos
+  /api/v1/videos/{id}/comments:
+    delete:
+      consumes:
+      - application/json
+      description: 댓글을 삭제합니다.
+      parameters:
+      - description: Video ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Comment ID
+        in: query
+        name: comment_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.BoolResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.DefaultDataResponse'
+      summary: DeleteCommentByID
+      tags:
+      - comments
+    get:
+      consumes:
+      - application/json
+      description: 해당 비디오의 전체 댓글을 조회합니다.
+      parameters:
+      - description: Video ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.DefaultDataResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.DefaultDataResponse'
+      summary: GetComments
+      tags:
+      - comments
+    patch:
+      consumes:
+      - application/json
+      description: 댓글을 수정합니다.
+      parameters:
+      - description: Video ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Update Comment
+        in: body
+        name: UpdateCommentDto
+        required: true
+        schema:
+          $ref: '#/definitions/database.UpdateCommentDto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.BoolResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.DefaultDataResponse'
+      summary: PatchCommentByID
+      tags:
+      - comments
+    post:
+      consumes:
+      - application/json
+      description: 댓글을 작성합니다.
+      parameters:
+      - description: Video ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Create Comment
+        in: body
+        name: CreateCommentDto
+        required: true
+        schema:
+          $ref: '#/definitions/database.CreateCommentDto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.BoolResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.DefaultDataResponse'
+      summary: CreateComment
+      tags:
+      - comments
+swagger: "2.0"

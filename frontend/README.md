@@ -5,12 +5,12 @@
 </h1>  
 
 <p align='center'>
-	<img src="https://img.shields.io/badge/React-v18.2.0-CB3837?logo=npm"/>
-	<img src="https://img.shields.io/badge/React-v18.2.0-339933?logo=node.js"/>
+    <img src="https://img.shields.io/badge/npm-v8.15.0-CB3837?logo=npm"/>
+    <img src="https://img.shields.io/badge/Node-v16.17.0-339933?logo=node.js"/>
     <img src="https://img.shields.io/badge/React-v18.2.0-61DAFB?logo=React"/>
-	<img src="https://img.shields.io/badge/React-v18.2.0-white?logo=Next.js"/>
-	<br />
-	<img src="https://img.shields.io/badge/React Query-v3.39.2-FF4154?style=flat&logo=React Query"/>
+    <img src="https://img.shields.io/badge/Next-v12.2.5-FFFFFF?logo=Next.js"/>
+    <br />
+    <img src="https://img.shields.io/badge/React Query-v3.39.2-FF4154?style=flat&logo=React Query"/>
     <img src="https://img.shields.io/badge/Zustand-v4.1.1-F7DF1E?style=flat&logo=zustand"/>
     <img src="https://img.shields.io/badge/Typescript-v4.0.5-3178C6?logo=typescript"/>
     <img src="https://img.shields.io/badge/Tailwind-v3.1.8-06B6D4?logo=tailwindcss">
@@ -18,7 +18,7 @@
 
 <br />
 
-### Getting Started
+# 🚀 Getting Started
 
 ```bash
 npm install
@@ -40,14 +40,17 @@ Open [klaymakers2022-lillybox](https://klaymakers2022-lillybox.vercel.app/) to c
 <br />
 <br />
 
-# Pages
+# 📍 Pages
+
+- Except for 'Home' and 'Wallet', the sidebar menu redirects to '/'(Home).
+- You can change the theme by the button next to Login. (dark or white).
 
 ### Main Page
 
-`localhost:3000` or `https://klaymakers2022-lillybox.vercel.app`
+#### `localhost:3000` or `https://klaymakers2022-lillybox.vercel.app`
 
-- You can change the theme by the button next to Login. (dark or white).
 - Click the video to watch the video page.
+- Click the video button next to the alarm button go to the upload page.
 
 <p align='center'>
   <img width="1690" alt="indexPage" src="https://user-images.githubusercontent.com/68188768/195080695-5c664baf-2b36-4779-ad4e-e8d35758a1dc.png">
@@ -57,9 +60,8 @@ Open [klaymakers2022-lillybox](https://klaymakers2022-lillybox.vercel.app/) to c
 
 ### Upload Page
 
-`localhost:3000/upload` or `https://klaymakers2022-lillybox.vercel.app/upload`
+#### `localhost:3000/upload` or `https://klaymakers2022-lillybox.vercel.app/upload`
 
-- Click the video button next to the alarm button.
 - You can upload videos.
 
 <img width="1796" alt="UploadPage" src="https://user-images.githubusercontent.com/68188768/195092021-1a2d47bf-4282-41af-af83-c05432604147.png">
@@ -81,7 +83,7 @@ Open [klaymakers2022-lillybox](https://klaymakers2022-lillybox.vercel.app/) to c
 
 ### Wallet Page
 
-`http://localhost:3000/wallet` or `https://di-uni-blog.vercel.app/wallet`
+#### `http://localhost:3000/wallet` or `https://di-uni-blog.vercel.app/wallet`
 
 - 1: Your address.
 - 2: Your nickname.
@@ -92,4 +94,17 @@ Open [klaymakers2022-lillybox](https://klaymakers2022-lillybox.vercel.app/) to c
 </p>
 
 <br />
+
+# 💻 Continue ...
+
+Future development contents :)
+
+- Page
+  - My page
+  - Settings
+- Function
+  - Video search
+  - Subscribe, Like
+  - Delete and edit (videos, comments, etc.)
+
 <br />

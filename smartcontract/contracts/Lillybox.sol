@@ -193,12 +193,17 @@ contract Lillybox is KIP37URIStorage, Ownable {
     }
 
     // 유저의 모든 요청 기록 조회
-    function showTable() public view returns (StakeRequest[] memory) {
+    function showTable()
+        public
+        view
+        isApproved
+        returns (StakeRequest[] memory)
+    {
         return Table[msg.sender].request;
     }
 
     // Stake
-    function stake() public payable StakeMutex returns (bool) {
+    function stake() public payable StakeMutex isApproved returns (bool) {
         // mapping 테이블에 넣어주기
         Table[msg.sender].request.push(
             StakeRequest(msg.value, block.number, 0, StakeStatus.Staked)
@@ -215,7 +220,12 @@ contract Lillybox is KIP37URIStorage, Ownable {
         return true;
     }
 
-    function unstake(uint256[] memory index) public StakeMutex returns (bool) {
+    function unstake(uint256[] memory index)
+        public
+        StakeMutex
+        isApproved
+        returns (bool)
+    {
         for (uint256 i = 0; i < index.length; i++) {
             // Index가 올바른지 확인
             require(
@@ -242,6 +252,7 @@ contract Lillybox is KIP37URIStorage, Ownable {
         public
         payable
         StakeMutex
+        isApproved
         returns (bool)
     {
         for (uint256 i = 0; i < index.length; i++) {
@@ -294,13 +305,19 @@ contract Lillybox is KIP37URIStorage, Ownable {
         public
         view
         walletOwnerOrAdmin(user)
+        isApproved
         returns (Wallet memory)
     {
         return Wallets[user];
     }
 
     // 비디오 NFT 민팅
-    function mintVod(string memory tokenURI) public payable returns (uint256) {
+    function mintVod(string memory tokenURI)
+        public
+        payable
+        isApproved
+        returns (uint256)
+    {
         uint256 id = mintNFT(tokenURI);
         return id;
     }
@@ -315,6 +332,7 @@ contract Lillybox is KIP37URIStorage, Ownable {
         public
         payable
         minValueCheck(minimumAdsCost())
+        isApproved
         returns (uint256)
     {
         uint256 id = mintNFT(tokenURI);
@@ -355,6 +373,7 @@ contract Lillybox is KIP37URIStorage, Ownable {
         public
         payable
         walletMutex
+        isApproved
         returns (bool)
     {
         require(balanceOf(msg.sender, LIL) >= _lilAmount, "Not enough LIL");
@@ -415,11 +434,14 @@ contract Lillybox is KIP37URIStorage, Ownable {
 
         for (uint256 i = 0; i < index.length; i++) {
             require(
-                Table[msg.sender].request[index[i]].status == StakeStatus.Staked
+                Table[msg.sender].request[index[i]].status ==
+                    StakeStatus.Staked,
+                "You can only get reward from staked block"
             );
-            require(Table[msg.sender].request[index[i]].stakedBlock != 0);
-        }
-        for (uint256 i = 0; i < index.length; i++) {
+            require(
+                Table[msg.sender].request[index[i]].stakedBlock != 0,
+                "Your staked block is missing"
+            );
             _total += estimateRewards(msg.sender, i);
             Table[msg.sender].request[i].stakedBlock = block.number;
         }

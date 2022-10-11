@@ -323,7 +323,7 @@ contract Lillybox is KIP37URIStorage, Ownable {
     }
 
     // 최소 광고 비용 조회
-    function minimumAdsCost() public view returns (uint256) {
+    function minimumAdsCost() public view isApproved returns (uint256) {
         return AdsCostPer10Times * 100;
     }
 
@@ -438,14 +438,17 @@ contract Lillybox is KIP37URIStorage, Ownable {
                     StakeStatus.Staked,
                 "You can only get reward from staked block"
             );
+
             require(
                 Table[msg.sender].request[index[i]].stakedBlock != 0,
                 "Your staked block is missing"
             );
-            _total += estimateRewards(msg.sender, i);
+
+            _total += estimateRewards(msg.sender, index[i]);
             Table[msg.sender].request[i].stakedBlock = block.number;
         }
         _mint(msg.sender, LIL, _total, "");
+
         emit FlushReward(msg.sender, _total, block.number);
         return _total;
     }

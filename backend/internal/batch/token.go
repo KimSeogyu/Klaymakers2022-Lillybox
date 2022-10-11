@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"log"
 
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
@@ -57,6 +58,7 @@ func (c *Client) GetToken(cursor any) (bool, map[string]any, error) {
 	if err != nil {
 		return false, nil, err
 	}
+	log.Println(fmt.Sprintf("GET ACCESS TO %s", url))
 	resp, err := c.httpClient.Do(req)
 	if err != nil {
 		return false, nil, err
@@ -89,6 +91,7 @@ func (c *Client) GetTokenOwner(tokenID string) (string, error) {
 	if err != nil {
 		return "", err
 	}
+	log.Println(fmt.Sprintf("GET ACCESS TO %s", url))
 	resp, err := c.httpClient.Do(req)
 	if err != nil {
 		return "", err

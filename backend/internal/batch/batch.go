@@ -3,6 +3,7 @@ package batch
 import (
 	"errors"
 	"fmt"
+	"log"
 	"time"
 
 	"gorm.io/gorm"
@@ -12,7 +13,7 @@ import (
 func (c *Client) BatchLoop() {
 	defer func() {
 		if r := recover(); r != nil {
-			c.ErrorLogger.Error(fmt.Sprint("Unexpected Errors Occurred :", r))
+			log.Println(fmt.Sprint("Unexpected Errors Occurred :", r))
 		}
 	}()
 	go c.PollingToken()
@@ -25,7 +26,7 @@ func (c *Client) BatchLoop() {
 				case errors.Is(err, nil):
 					go PushMetadata(c.Channel.MetadataChan, MappedData{Metadata: *_metadata, TokenInfo: *tokenInfo})
 				default:
-					c.ErrorLogger.Error(fmt.Sprint("Unexpected Error Occurred!", err))
+					log.Println(fmt.Sprint("Unexpected Error Occurred!", err))
 				}
 			}
 		case data := <-c.Channel.MetadataChan:
@@ -50,10 +51,10 @@ func (c *Client) BatchLoop() {
 func (c *Client) PollingToken() {
 	defer func() {
 		if r := recover(); r != nil {
-			c.ErrorLogger.Error(fmt.Sprint("Unexpected Errors Occurred :", r))
+			log.Println(fmt.Sprint("Unexpected Errors Occurred :", r))
 		}
 	}()
-	t := time.Tick(time.Minute * 5)
+	t := time.Tick(time.Minute)
 	var cursor any = ""
 	for range t {
 		ok, _body, err := c.GetToken(cursor)
@@ -63,7 +64,7 @@ func (c *Client) PollingToken() {
 		for _, v := range _body["items"].([]interface{}) {
 			items := v.(map[string]interface{})
 			_tokenInfo, _ := c.GetTokenInfo(items)
-			if _tokenInfo.TokenID != "0x0" {
+			if _tokenInfo.TokenID != "0x0" && _tokenInfo.TokenID != "0x1" {
 				_, err := c.Database.ReadToken(_tokenInfo.TokenID)
 				if errors.Is(err, gorm.ErrRecordNotFound) {
 					go PushTokenInfo(c.Channel.TokenChan, _tokenInfo)

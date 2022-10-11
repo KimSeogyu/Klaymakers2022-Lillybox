@@ -56,7 +56,6 @@ func (c *Client) SetBatchAccessLog() {
 	w := zapcore.AddSync(rotator)
 	core := zapcore.NewCore(zapcore.NewJSONEncoder(encCfg), w, zap.InfoLevel)
 	accessLoger := zap.New(core)
-	log.SetOutput(rotator)
 	accessLoger.Info("Now logging in a rotated file")
 	c.AccessLogger = accessLoger
 }
@@ -80,7 +79,5 @@ func (c *Client) SetBatchErrorLog() {
 	w := zapcore.AddSync(rotator)
 	core := zapcore.NewCore(zapcore.NewJSONEncoder(encCfg), w, zap.ErrorLevel)
 	errorLoger := zap.New(core)
-	log.SetOutput(rotator)
-	errorLoger.Error("Now logging in a rotated file")
 	c.ErrorLogger = errorLoger
 }

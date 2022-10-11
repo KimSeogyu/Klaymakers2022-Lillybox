@@ -25,7 +25,7 @@
 > In addition, the video is uploaded to IPFS, not to a private platform, so anyone who knows the CID can watch it forever.  
 > Creators can earn continuous advertising revenue by holding ownership, or generate revenue by selling ownership.
 
-📌 *`Donation`* - All users can donate by simply clicking and entering a value in their favorite creator.
+📌 *`Donation`* - All users can donate to their favorite creator by simply clicking and entering a value.
 > KLAY sent by the user to the creator will be stored in the creator's wallet.  
 > Creators can take money out of their wallets at any time and save on withdrawal fees using LIL.  
 

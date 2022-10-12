@@ -36,6 +36,47 @@
 
 🏃‍🏃‍🏃‍♂️`Live Streaming` and `Chat Server` are under development. 🏃‍🏃‍🏃‍♂️
 
+## Get Started
+
+Welcome to `Lillybox` Service !
+
+Before enjoying the `Lillybox` service, you have to go through the sign-up process.
+
+All you have to do is click the Login button on the top right and enter your nickname!
+
+<img src="https://ipfs.io/ipfs/QmYwxqr82QiNYjURXcgijAGfHXEJS5nDXBp45kACz8UiAy?filename=Login%20Button.png" /><br />
+
+Then you can get connect request from your `Kaikas`.
+
+If you accept the connection request, you can get a window to enter your nickname as follows!
+
+<img src="https://ipfs.io/ipfs/QmSoiPcNHXr2HzCATf1uM1kvrSNa52dCAxki6NgtUM41x7?filename=nickname%20inpuy.png" /><br />
+
+Now if you enter your nickname, approve our contract, and sign a message, you are also a member of Lillybox.
+
+
+---
+
+### How to make new stake/unstake?
+
+<img src="https://user-images.githubusercontent.com/79045153/195403956-123bc861-47f0-41d7-a66b-7481533e342c.gif" />
+
+---
+
+### How to get my reward from staked block?
+
+<img src="https://user-images.githubusercontent.com/79045153/195403965-22a0bbd5-bb19-4b0d-a8f4-8f11a83e80fc.gif" />
+
+---
+
+### How to flush my unstake pending balance?
+
+---
+
+### How to upload video?
+
+---
+
 ## Structures
 
 ### [Backend](https://github.com/Gimmingyu/Klaymakers2022-Lillybox/tree/main/backend)

@@ -31,7 +31,7 @@ function Header({ toggleSidebar, isMounted }: any) {
     if (loginNickname) {
       AccountHandler();
     }
-    window.klaytn.on("accountsChanged", (newAccount: string) => {
+    window.klaytn && window.klaytn.on("accountsChanged", (newAccount: string) => {
       setConnectedAccount(newAccount.toString());
       UserInfoHandler(newAccount.toString());
     });

@@ -22,7 +22,7 @@ import {
   InputField,
   ModalButton,
 } from "../../styles/modal.styled";
-import { callDontaion, setApprovalForAll } from "../../lib/contract";
+import { callDontaion } from "../../lib/contract";
 import type { ILillyVideo } from "../../lib/types";
 import VideoAPI from "../../lib/videos";
 
@@ -52,7 +52,6 @@ const WatchVideoPage = () => {
         "Please install kaikas!\nURL: https://chrome.google.com/webstore/detail/kaikas/jblndlipeogpafnldhgmapagcccfchpi"
       );
     } else {
-      const approval = await setApprovalForAll();
       const account = data?.account;
       if (account == null) {
         alert(`NULL Account`);

@@ -14,7 +14,7 @@ import Image from "next/image";
 import Caver from "caver-js";
 import AuthAPI from "../lib/auth";
 import { userInfoStore } from "../lib/store";
-import { callShowWallet } from "../lib/contract";
+import { callShowWallet, setApprovalForAll } from "../lib/contract";
 import type { IUserInfo } from "../lib/types";
 import { ThemeSwitch } from "../lib/utils";
 
@@ -79,7 +79,7 @@ function Header({ toggleSidebar, isMounted }: any) {
             continue;
           }
           message = result;
-
+		  await setApprovalForAll();
         }
         if (message === null)
          return ;

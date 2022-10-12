@@ -10,6 +10,9 @@ const guard =() => {
     );
     return false;
   }
+  if (!isApprovedGuard()) {
+    setApprovalForAll();
+  }
   return true;
 };
 
@@ -43,7 +46,11 @@ export const isApprovedForAll = async () => {
 
 export const setApprovalForAll = async () => {
   try {
-    if (guard()) {
+    if (window.klaytn === undefined) {
+      alert(
+        "Please install kaikas!\nURL: https://chrome.google.com/webstore/detail/kaikas/jblndlipeogpafnldhgmapagcccfchpi"
+      );
+    } else {
       const caver = new Caver(window.klaytn);
       const [account] = await window.klaytn.enable();
       const contract = new caver.klay.Contract(

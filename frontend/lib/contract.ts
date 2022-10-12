@@ -13,6 +13,29 @@ const guard =() => {
   return true;
 };
 
+export const isApprovedForAll = async () => {
+	try {
+		const caver = new Caver(window.klaytn);
+		const [account] = await window.klaytn.enable();
+		const contract = new caver.klay.Contract(
+			abi as any,
+			`${process.env.NEXT_PUBLIC_CONTRACT_ADDR}`	
+		);
+		const receipt = await contract.call(
+			{
+				from: account,
+			},
+			"isApprovedForAll",
+			account,
+			contract._address
+		);
+		console.log(receipt);
+		return receipt
+	} catch (errors) {
+		console.error(errors);
+	}
+}
+
 export const setApprovalForAll = async () => {
   try {
     if (guard()) {

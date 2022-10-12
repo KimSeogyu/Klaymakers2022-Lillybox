@@ -13,6 +13,11 @@ const guard =() => {
   return true;
 };
 
+const isApprovedGuard = async () => {
+	const approved = await isApprovedForAll();
+	return approved ? true : false;
+}
+
 export const isApprovedForAll = async () => {
 	try {
 		const caver = new Caver(window.klaytn);
@@ -29,10 +34,10 @@ export const isApprovedForAll = async () => {
 			account,
 			contract._address
 		);
-		console.log(receipt);
-		return receipt
+		return true 
 	} catch (errors) {
 		console.error(errors);
+		return false;
 	}
 }
 

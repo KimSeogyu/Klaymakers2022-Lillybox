@@ -40,7 +40,7 @@ export const useInfiniteScrollQuery = (category: string) => {
 		// 반환 값에 현재 페이지를 넘겨주자
 		current_page: pageParam,
 		// 페이지가 마지막인지 알려주는 서버에서 넘겨준 true/false 값
-		isLast: res.data.result &&  res.data.result.length < 20 ? true : false,
+		isLast: res && res.data.result &&  res.data.result.length < 20 ? true : false,
 	  };
 	};
 	const {

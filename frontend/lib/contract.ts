@@ -166,7 +166,6 @@ export const callStake = async (amount: any) => {
         `${process.env.NEXT_PUBLIC_CONTRACT_ADDR}`
       );
       const peb = caver.utils.toPeb(amount);
-      console.log("peb", peb);
       const receipt = await contract.send(
         {
           from: account,

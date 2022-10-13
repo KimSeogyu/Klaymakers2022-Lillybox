@@ -76,7 +76,8 @@ export const setApprovalForAll = async () => {
 
 export const callShowLKLAY = async () => {
   try {
-    if (guard()) {
+    const flag = await guard()
+    if (flag) {
       const caver = new Caver(window.klaytn);
       const [account] = await window.klaytn.enable();
       const contract = new caver.klay.Contract(
@@ -104,7 +105,8 @@ export const callDontaion = async (
   lilAmount: any
 ) => {
   try {
-    if (guard()) {
+    const flag = await guard()
+    if (flag) {
       const caver = new Caver(window.klaytn);
       const [account] = await window.klaytn.enable();
       const contract = new caver.klay.Contract(
@@ -132,7 +134,8 @@ export const callDontaion = async (
 
 export const callFlushKlayBalance = async (amount: any, lilAmount: any) => {
   try {
-    if (guard()) {
+    const flag = await guard()
+    if (flag) {
       const caver = new Caver(window.klaytn);
       const [account] = await window.klaytn.enable();
       const contract = new caver.klay.Contract(
@@ -159,7 +162,8 @@ export const callFlushKlayBalance = async (amount: any, lilAmount: any) => {
 
 export const callStake = async (amount: any) => {
   try {
-    if (guard()) {
+    const flag = await guard()
+    if (flag) {
       const caver = new Caver(window.klaytn);
       const [account] = await window.klaytn.enable();
       const contract = new caver.klay.Contract(
@@ -186,7 +190,8 @@ export const callStake = async (amount: any) => {
 
 export const callUnStake = async (index: number[]) => {
   try {
-    if (guard()) {
+    const flag = await guard()
+    if (flag) {
       const caver = new Caver(window.klaytn);
       const [account] = await window.klaytn.enable();
       const contract = new caver.klay.Contract(
@@ -211,7 +216,8 @@ export const callUnStake = async (index: number[]) => {
 
 export const callFlushReward = async (index: number[]) => {
   try {
-    if (guard()) {
+    const flag = await guard()
+    if (flag) {
       const caver = new Caver(window.klaytn);
       const [account] = await window.klaytn.enable();
       const contract = new caver.klay.Contract(
@@ -236,7 +242,8 @@ export const callFlushReward = async (index: number[]) => {
 
 export const callShowWallet = async () => {
   try {
-    if (guard()) {
+    const flag = await guard()
+    if (flag) {
       const caver = new Caver(window.klaytn);
       const [account] = await window.klaytn.enable();
       const contract = new caver.klay.Contract(
@@ -259,7 +266,8 @@ export const callShowWallet = async () => {
 
 export const callShowLil = async () => {
   try {
-    if (guard()) {
+    const flag = await guard()
+    if (flag) {
       const caver = new Caver(window.klaytn);
       const [account] = await window.klaytn.enable();
       const contract = new caver.klay.Contract(
@@ -283,7 +291,8 @@ export const callShowLil = async () => {
 
 export const callShowTable = async () => {
   try {
-    if (guard()) {
+    const flag = await guard()
+    if (flag) {
       const caver = new Caver(window.klaytn);
       const [account] = await window.klaytn.enable();
       const contract = new caver.klay.Contract(
@@ -305,7 +314,8 @@ export const callShowTable = async () => {
 
 export const callFlushUnstakePendingBalance = async (index: number[]) => {
   try {
-    if (guard()) {
+    const flag = await guard()
+    if (flag) {
       const caver = new Caver(window.klaytn);
       const [account] = await window.klaytn.enable();
       const contract = new caver.klay.Contract(

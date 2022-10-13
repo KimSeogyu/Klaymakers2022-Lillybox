@@ -107,10 +107,10 @@ follow the steps
 
 <p align="center">
     <span align="left">
-        <img width="480" alt="success" src="https://user-images.githubusercontent.com/68188768/195578815-28410b3a-3487-4155-b2c5-ba368dee8a37.png">
+        <img width="400" alt="success" src="https://user-images.githubusercontent.com/68188768/195578815-28410b3a-3487-4155-b2c5-ba368dee8a37.png">
     </span>
     <span align="right">
-        <img width="480" alt="result" src="https://user-images.githubusercontent.com/68188768/195579173-30e7db10-e788-431c-9212-175eda0a1ae7.png">
+        <img width="400" alt="result" src="https://user-images.githubusercontent.com/68188768/195579173-30e7db10-e788-431c-9212-175eda0a1ae7.png">
     </span>
 </p>
 

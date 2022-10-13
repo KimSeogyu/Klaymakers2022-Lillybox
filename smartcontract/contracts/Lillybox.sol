@@ -69,7 +69,7 @@ contract Lillybox is KIP37URIStorage, Ownable {
     // 지갑 정보
     struct Wallet {
         // 예치되어 있는 KLAY 잔고
-        uint256 klayBalance;
+        uint256 donationReward;
         // 동시성처리를 위한 Mutex lock
         bool lock;
     }
@@ -369,7 +369,7 @@ contract Lillybox is KIP37URIStorage, Ownable {
         super._burn(from, id, amount);
     }
 
-    function flushKlayBalance(uint256 _amount, uint256 _lilAmount)
+    function flushDonationReward(uint256 _amount, uint256 _lilAmount)
         public
         payable
         walletMutex
@@ -381,12 +381,12 @@ contract Lillybox is KIP37URIStorage, Ownable {
         require(_lilAmount <= 1000, "Max amount is 1000 LIL");
 
         require(
-            Wallets[msg.sender].klayBalance >= _amount,
+            Wallets[msg.sender].donationReward >= _amount,
             "Not enough deposit"
         );
 
         uint256 _fee = withdrawFee(_amount, _lilAmount);
-        Wallets[msg.sender].klayBalance -= _amount;
+        Wallets[msg.sender].donationReward -= _amount;
         FeeRevenues += _fee;
         // Send Klay
         payable(msg.sender).transfer(_amount - _fee);
@@ -484,7 +484,7 @@ contract Lillybox is KIP37URIStorage, Ownable {
 
         uint256 _fee = donationFee(msg.value, _lilAmount);
 
-        Wallets[destUser].klayBalance += msg.value - _fee;
+        Wallets[destUser].donationReward += msg.value - _fee;
 
         if (_lilAmount > 0) {
             _burn(msg.sender, LIL, _lilAmount);

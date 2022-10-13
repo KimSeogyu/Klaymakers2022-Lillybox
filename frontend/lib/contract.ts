@@ -10,17 +10,12 @@ const guard = async () => {
     );
     return false;
   }
-  const flag = await isApprovedGuard();
+  const flag = await isApprovedForAll();
   if (!flag) {
 	  await setApprovalForAll();
   }
   return true;
 };
-
-const isApprovedGuard = async () => {
-	const approved = await isApprovedForAll();
-	return approved ? true : false;
-}
 
 export const isApprovedForAll = async () => {
 	try {
@@ -38,7 +33,7 @@ export const isApprovedForAll = async () => {
 			account,
 			contract._address
 		);
-		return true 
+		return receipt 
 	} catch (errors) {
 		console.error(errors);
 		return false;

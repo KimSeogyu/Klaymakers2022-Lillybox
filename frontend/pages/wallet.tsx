@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { userInfoStore } from "../lib/store";
 import Avatar from "react-avatar";
-import { isInteger } from "../lib/utils";
+import { isPositiveInteger } from "../lib/utils";
 import type { IModal, IStakeRequest } from "../lib/types";
 import {
   callShowWallet,
@@ -13,7 +13,7 @@ import {
   callFlushReward,
   callShowLil,
   callFlushUnstakePendingBalance,
-  callFlushKlayBalance,
+  callFlushDonationReward,
   isApprovedForAll,
 } from "../lib/contract";
 import {
@@ -64,7 +64,7 @@ export default function Wallet() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const { myAccount, myNickname } = userInfoStore();
-  const [myKlayBalance, setmyKlayBalance] = useState("");
+  const [myDonationReward, setMyDonationReward] = useState("");
   const [myLil, setMyLil] = useState("");
   const [modal, setModal] = useState<IModal>({
     title: "",
@@ -95,7 +95,7 @@ export default function Wallet() {
       const caver = new Caver();
       const Wallet = await callShowWallet();
       const lil = await callShowLil();
-      setmyKlayBalance(`${caver.utils.fromPeb(Wallet.klayBalance)}`);
+      setMyDonationReward(`${caver.utils.fromPeb(Wallet.donationReward)}`);
       setMyLil(`${caver.utils.fromPeb(lil)}`);
     } catch (error) {
       console.log("myWallet error\n", error);
@@ -111,18 +111,12 @@ export default function Wallet() {
   };
   const stake = async () => {
     try {
-      if (!(amount > 0)) {
-        alert("Please enter a number greater than 0.");
-        throw new SyntaxError("Incomplete data: A number less than 1");
+      if (isPositiveInteger(amount)) {
+        const receipt = await callStake(amount);
+        console.log("stake", receipt);
+        // alert(JSON.stringify(receipt, null, 2));
+        alert("Success");
       }
-      if (!isInteger(amount)) {
-        alert("Please enter an integer");
-        throw new SyntaxError("Incomplete data: Not an integer");
-      }
-      const receipt = await callStake(amount);
-      console.log("stake", receipt);
-      // alert(JSON.stringify(receipt, null, 2));
-      alert("Success");
     } catch (error) {
       console.log("stake error\n", error);
       alert(`Transaction Failed`);
@@ -136,12 +130,11 @@ export default function Wallet() {
   };
   const unStake = async () => {
     try {
-      if (!checkSelectBlock()) {
-        throw new SyntaxError("Incomplete data: no select");
+      if (checkSelectBlock()) {
+        const receipt = await callUnStake(index);
+        console.log("unStake", receipt);
+        alert("Success");
       }
-      const receipt = await callUnStake(index);
-      console.log("unStake", receipt);
-      alert("Success");
     } catch (error) {
       console.log("unStake error\n", error);
       alert(`Transaction Failed`);
@@ -152,15 +145,14 @@ export default function Wallet() {
   };
   const flushReward = async () => {
     try {
-      if (!checkSelectBlock()) {
-        throw new SyntaxError("Incomplete data: no select");
+      if (checkSelectBlock()) {
+        const caver = new Caver();
+        const receipt = await callFlushReward(index);
+        const lil = await callShowLil();
+        setMyLil(`${caver.utils.fromPeb(lil)}`);
+        alert(`Success`);
+        console.log("flushReward", receipt);
       }
-      const caver = new Caver();
-      const receipt = await callFlushReward(index);
-      const lil = await callShowLil();
-      setMyLil(`${caver.utils.fromPeb(lil)}`);
-      alert(`Success`);
-      console.log("flushReward", receipt);
     } catch (error) {
       console.log("flushReward error\n", error);
       alert(`Transaction Failed`);
@@ -171,15 +163,14 @@ export default function Wallet() {
   };
   const flushUnstakePendingBalance = async () => {
     try {
-      if (!checkSelectBlock()) {
-        throw new SyntaxError("Incomplete data: no select");
+      if (checkSelectBlock()) {
+        const caver = new Caver();
+        const receipt = await callFlushUnstakePendingBalance(index);
+        alert(`Success`);
+        const Wallet = await callShowWallet();
+        setMyDonationReward(`${caver.utils.fromPeb(Wallet.donationReward)}`);
+        console.log("flushUnstakePending", receipt);
       }
-      const caver = new Caver();
-      const receipt = await callFlushUnstakePendingBalance(index);
-      alert(`Success`);
-      const Wallet = await callShowWallet();
-      setmyKlayBalance(`${caver.utils.fromPeb(Wallet.klayBalance)}`);
-      console.log("flushUnstakePending", receipt);
     } catch (error) {
       console.log("flushUnstakePendingBalance error\n", error);
       alert(`Transaction Failed`);
@@ -188,18 +179,18 @@ export default function Wallet() {
     myWallet();
     myTable();
   };
-  const flushKlayBalance = async () => {
+  const flushDonationReward = async () => {
     try {
       const caver = new Caver();
-      const receipt = await callFlushKlayBalance(amount, lilAmount);
-      alert(`Success`);
+      const receipt = await callFlushDonationReward(amount, lilAmount);
       const Wallet = await callShowWallet();
-      setmyKlayBalance(`${caver.utils.fromPeb(Wallet.klayBalance)}`);
+      setMyDonationReward(`${caver.utils.fromPeb(Wallet.donationReward)}`);
       const lil = await callShowLil();
       setMyLil(`${caver.utils.fromPeb(lil)}`);
+      alert(`Success`);
       console.log("flushUnstakePending", receipt);
     } catch (error) {
-      console.log("flushKlayBalance error\n", error);
+      console.log("flushDonationReward error\n", error);
       alert(`Transaction Failed`);
     }
     setIndex([]);
@@ -211,11 +202,16 @@ export default function Wallet() {
     myTable();
   };
   const checkSelectBlock = () => {
-    if (index.length === 0) {
-      alert("Please select your stake block");
-      return false;
+    try {
+      if (index.length === 0) {
+        alert("Please select your stake block");
+  			throw new SyntaxError("Incomplete data: A number less than 1");
+      }
+      return true;
+    } catch (error) {
+        console.log("checkSelectBlock: ", error);
+        return false;
     }
-    return true;
   };
   const changeHandler = (checked: boolean, id: number) => {
     if (checked) {
@@ -256,7 +252,7 @@ export default function Wallet() {
                   <ModalButton onClick={() => setModalOpen(false)}>
                     Cancle
                   </ModalButton>
-                  <ModalButton onClick={() => callFunction !== 0 ? (callFunction === 1 ? stake() : flushKlayBalance()) : null}>Confirm</ModalButton>
+                  <ModalButton onClick={() => callFunction !== 0 ? (callFunction === 1 ? stake() : flushDonationReward()) : null}>Confirm</ModalButton>
                 </ButtonGroup>
               </ModalView>
             </ModalBackdrop>
@@ -267,7 +263,7 @@ export default function Wallet() {
               <Avatar name="Lilly0" size={"50"} round={true} />
             </Text>
             <Text>Nickname: {myNickname}</Text>
-            <Text>{myKlayBalance} KLAY</Text>
+            <Text>{myDonationReward} KLAY</Text>
             <Text>{myLil} LIL</Text>
           </WalletInfo>
           <Hr />

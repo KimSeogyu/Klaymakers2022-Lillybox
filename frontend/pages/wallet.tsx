@@ -15,9 +15,11 @@ import {
   callFlushUnstakePendingBalance,
   callFlushDonationReward,
   isApprovedForAll,
+  guard,
 } from "../lib/contract";
 import {
   WalletWrapper,
+  TextTitle,
   Text,
   WalletInfo,
   Info,
@@ -60,12 +62,14 @@ const StakeStatusColorHandler = (status: string) => {
       return "#EB1D36";
   }
 };
+
 export default function Wallet() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const { myAccount, myNickname } = userInfoStore();
-  const [myDonationReward, setMyDonationReward] = useState("");
-  const [myLil, setMyLil] = useState("");
+  const [myDonationReward, setMyDonationReward] = useState("0");
+  const [myLil, setMyLil] = useState("0");
+  const [myStakeBalance, setMyStakeBalance] = useState(0);
   const [modal, setModal] = useState<IModal>({
     title: "",
     description1: "",
@@ -89,14 +93,25 @@ export default function Wallet() {
     }
     setIsLoading(true);
   }, [myNickname, ]);
-
+  const checkStakBalance = (stakeTable: IStakeRequest[]) => {
+    let sumStakeBalance = 0
+    stakeTable.forEach(function(value) {
+      if(StakeStatusHandler(value.status) === "Staked") {
+        sumStakeBalance += Number(value.amount);
+      };
+    })
+    setMyStakeBalance(sumStakeBalance);
+  };
   const myWallet = async () => {
     try {
       const caver = new Caver();
-      const Wallet = await callShowWallet();
-      const lil = await callShowLil();
-      setMyDonationReward(`${caver.utils.fromPeb(Wallet.donationReward)}`);
-      setMyLil(`${caver.utils.fromPeb(lil)}`);
+      const flag = await guard();
+      if (flag) {
+        const Wallet = await callShowWallet();
+        const lil = await callShowLil();
+        setMyDonationReward(`${caver.utils.fromPeb(Wallet.donationReward)}`);
+        setMyLil(`${caver.utils.fromPeb(lil)}`);
+      }
     } catch (error) {
       console.log("myWallet error\n", error);
     }
@@ -105,6 +120,7 @@ export default function Wallet() {
     try {
       const Table: IStakeRequest[] = await callShowTable();
       setStakeRequest(Table);
+      checkStakBalance(Table);
     } catch (error) {
       console.log("myTable error\n", error);
     }
@@ -259,11 +275,14 @@ export default function Wallet() {
           ) : null}
           <WalletInfo>
             <Text>{myAccount}</Text>
-            <Text>
+            <TextTitle>
               <Avatar name="Lilly0" size={"50"} round={true} />
-            </Text>
-            <Text>Nickname: {myNickname}</Text>
-            <Text>{myDonationReward} KLAY</Text>
+            </TextTitle>
+            <TextTitle><b>Nickname</b></TextTitle>
+            <Text>{myNickname}</Text>
+            <TextTitle><b>Balance</b></TextTitle>
+            <Text>Donation reward: {myDonationReward} KLAY</Text>
+            <Text>Staked: {Caver.utils.fromPeb(myStakeBalance)} KLAY</Text>
             <Text>{myLil} LIL</Text>
           </WalletInfo>
           <Hr />
@@ -311,14 +330,14 @@ export default function Wallet() {
                 setCallFunction(2);
                 setModalOpen(true);
                 setModal({
-                  title: "Flush KLAY Balance",
+                  title: "Flush donation reward",
                   description1: "KLAY Amount",
                   description2: "LIL Amount",
                 });
               }}
               color="#A2B5BB"
             >
-              flush klay balance
+              flush donation reward balance
             </Button>
           </Info>
           <Hr />

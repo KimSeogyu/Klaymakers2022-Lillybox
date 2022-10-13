@@ -43,6 +43,14 @@ export const Hr = styled.hr`
   border: 0.5px solid;
   ${(props: any) => props.type && `display: none;`}
 `;
+export const TextTitle = styled.div`
+  text-align: center;
+  text-decoration: underline;
+  gap: 15px;
+  width: 70%;
+  margin: 0 auto;
+  margin-top:10px
+`;
 export const Text = styled.div`
   flex-direction: column;
   text-align: center;

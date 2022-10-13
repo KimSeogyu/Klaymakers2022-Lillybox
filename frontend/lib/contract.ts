@@ -3,7 +3,7 @@ import abi from "../contract/abi/Lillybox.json";
 
 export const mintVOD = async () => {};
 
-const guard = async () => {
+export const guard = async () => {
   if (window.klaytn === undefined) {
     alert(
       "Please install kaikas!\nURL: https://chrome.google.com/webstore/detail/kaikas/jblndlipeogpafnldhgmapagcccfchpi"
@@ -12,7 +12,12 @@ const guard = async () => {
   }
   const flag = await isApprovedForAll();
   if (!flag) {
-	  await setApprovalForAll();
+    if (confirm("Non-Approval Request: Not available.")) {
+      await setApprovalForAll();
+    } else {
+      window.location.href = window.location.host;
+      return false;
+    }
   }
   return true;
 };
@@ -166,7 +171,6 @@ export const callStake = async (amount: any) => {
         `${process.env.NEXT_PUBLIC_CONTRACT_ADDR}`
       );
       const peb = caver.utils.toPeb(amount);
-      console.log("peb", peb);
       const receipt = await contract.send(
         {
           from: account,

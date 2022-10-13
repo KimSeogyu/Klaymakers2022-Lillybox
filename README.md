@@ -59,21 +59,60 @@ Now if you enter your nickname, approve our contract, and sign a message, you ar
 
 ### How to make new stake/unstake?
 
-<img src="https://user-images.githubusercontent.com/79045153/195403956-123bc861-47f0-41d7-a66b-7481533e342c.gif" />
+<p align="center">
+    <img  width="1690" src="https://user-images.githubusercontent.com/79045153/195403956-123bc861-47f0-41d7-a66b-7481533e342c.gif" />
+</p>
 
 ---
 
 ### How to get my reward from staked block?
 
-<img src="https://user-images.githubusercontent.com/79045153/195403965-22a0bbd5-bb19-4b0d-a8f4-8f11a83e80fc.gif" />
+<p align="center">
+    <img src="https://user-images.githubusercontent.com/79045153/195403965-22a0bbd5-bb19-4b0d-a8f4-8f11a83e80fc.gif" />
+</p>
 
 ---
 
 ### How to flush my unstake pending balance?
 
+<p align="center">
+    <img width="1690" src="https://user-images.githubusercontent.com/68188768/195535854-0d739376-9538-4e46-ac43-c55e0e4b3301.gif" />
+</p>
+
 ---
 
 ### How to upload video?
+
+follow the steps
+
+#### 1. Click the video button
+
+<p align="center">
+    <img  width="1690" alt="first" src="https://user-images.githubusercontent.com/68188768/195551790-3112a61d-f723-4253-bdf9-0e29bc074ee1.png">
+</p>
+
+#### 2. Fill out the form (❗️Orange boxes are mandatory.)
+
+<p align="center">
+    <img width="1690" alt="uploading" src="https://user-images.githubusercontent.com/68188768/195577719-66d25a77-4c47-4f21-b17e-14deee2a1aad.png">
+</p>
+
+#### 3. Click the Upload button and confirm
+
+<p align="center">
+    <img width="1690" alt="clickupload" src="https://user-images.githubusercontent.com/68188768/195578489-bb8c2b4d-f84c-4d76-b637-61fb08e80377.png">
+</p>
+
+#### 4. Result
+
+<p align="center">
+    <span align="left">
+        <img width="480" alt="success" src="https://user-images.githubusercontent.com/68188768/195578815-28410b3a-3487-4155-b2c5-ba368dee8a37.png">
+    </span>
+    <span align="right">
+        <img width="480" alt="result" src="https://user-images.githubusercontent.com/68188768/195579173-30e7db10-e788-431c-9212-175eda0a1ae7.png">
+    </span>
+</p>
 
 ---
 

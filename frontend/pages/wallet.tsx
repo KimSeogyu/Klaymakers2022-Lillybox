@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { userInfoStore } from "../lib/store";
 import Avatar from "react-avatar";
-import { isInteger } from "../lib/utils";
+import { isPositiveInteger } from "../lib/utils";
 import type { IModal, IStakeRequest } from "../lib/types";
 import {
   callShowWallet,
@@ -110,18 +110,12 @@ export default function Wallet() {
   };
   const stake = async () => {
     try {
-      if (!(amount > 0)) {
-        alert("Please enter a number greater than 0.");
-        throw new SyntaxError("Incomplete data: A number less than 1");
+      if (isPositiveInteger(amount)) {
+        const receipt = await callStake(amount);
+        console.log("stake", receipt);
+        // alert(JSON.stringify(receipt, null, 2));
+        alert("Success");
       }
-      if (!isInteger(amount)) {
-        alert("Please enter an integer");
-        throw new SyntaxError("Incomplete data: Not an integer");
-      }
-      const receipt = await callStake(amount);
-      console.log("stake", receipt);
-      // alert(JSON.stringify(receipt, null, 2));
-      alert("Success");
     } catch (error) {
       console.log("stake error\n", error);
       alert(`Transaction Failed`);
@@ -135,12 +129,11 @@ export default function Wallet() {
   };
   const unStake = async () => {
     try {
-      if (!checkSelectBlock()) {
-        throw new SyntaxError("Incomplete data: no select");
+      if (checkSelectBlock()) {
+        const receipt = await callUnStake(index);
+        console.log("unStake", receipt);
+        alert("Success");
       }
-      const receipt = await callUnStake(index);
-      console.log("unStake", receipt);
-      alert("Success");
     } catch (error) {
       console.log("unStake error\n", error);
       alert(`Transaction Failed`);
@@ -151,15 +144,14 @@ export default function Wallet() {
   };
   const flushReward = async () => {
     try {
-      if (!checkSelectBlock()) {
-        throw new SyntaxError("Incomplete data: no select");
+      if (checkSelectBlock()) {
+        const caver = new Caver();
+        const receipt = await callFlushReward(index);
+        const lil = await callShowLil();
+        setMyLil(`${caver.utils.fromPeb(lil)}`);
+        alert(`Success`);
+        console.log("flushReward", receipt);
       }
-      const caver = new Caver();
-      const receipt = await callFlushReward(index);
-      const lil = await callShowLil();
-      setMyLil(`${caver.utils.fromPeb(lil)}`);
-      alert(`Success`);
-      console.log("flushReward", receipt);
     } catch (error) {
       console.log("flushReward error\n", error);
       alert(`Transaction Failed`);
@@ -170,15 +162,14 @@ export default function Wallet() {
   };
   const flushUnstakePendingBalance = async () => {
     try {
-      if (!checkSelectBlock()) {
-        throw new SyntaxError("Incomplete data: no select");
+      if (checkSelectBlock()) {
+        const caver = new Caver();
+        const receipt = await callFlushUnstakePendingBalance(index);
+        alert(`Success`);
+        const Wallet = await callShowWallet();
+        setmyKlayBalance(`${caver.utils.fromPeb(Wallet.klayBalance)}`);
+        console.log("flushUnstakePending", receipt);
       }
-      const caver = new Caver();
-      const receipt = await callFlushUnstakePendingBalance(index);
-      alert(`Success`);
-      const Wallet = await callShowWallet();
-      setmyKlayBalance(`${caver.utils.fromPeb(Wallet.klayBalance)}`);
-      console.log("flushUnstakePending", receipt);
     } catch (error) {
       console.log("flushUnstakePendingBalance error\n", error);
       alert(`Transaction Failed`);
@@ -191,11 +182,11 @@ export default function Wallet() {
     try {
       const caver = new Caver();
       const receipt = await callFlushKlayBalance(amount, lilAmount);
-      alert(`Success`);
       const Wallet = await callShowWallet();
       setmyKlayBalance(`${caver.utils.fromPeb(Wallet.klayBalance)}`);
       const lil = await callShowLil();
       setMyLil(`${caver.utils.fromPeb(lil)}`);
+      alert(`Success`);
       console.log("flushUnstakePending", receipt);
     } catch (error) {
       console.log("flushKlayBalance error\n", error);
@@ -210,11 +201,16 @@ export default function Wallet() {
     myTable();
   };
   const checkSelectBlock = () => {
-    if (index.length === 0) {
-      alert("Please select your stake block");
-      return false;
+    try {
+      if (index.length === 0) {
+        alert("Please select your stake block");
+  			throw new SyntaxError("Incomplete data: A number less than 1");
+      }
+      return true;
+    } catch (error) {
+        console.log("checkSelectBlock: ", error);
+        return false;
     }
-    return true;
   };
   const changeHandler = (checked: boolean, id: number) => {
     if (checked) {

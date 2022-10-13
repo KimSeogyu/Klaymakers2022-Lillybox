@@ -57,8 +57,20 @@ export const useInfiniteScrollQuery = (category: string) => {
 	return { getVideos, getNextPage, getVideosIsSuccess, getNextPageIsPossible };
 };
 
-export const isInteger = (obj: string | number): boolean => {
-    console.log(Number.isInteger(Number(obj)));
-    return Number.isInteger(Number(obj));
+export const isPositiveInteger = (obj: string | number): boolean => {
+	try {
+		if (!(obj > 0)) {
+			alert("Please enter a number greater than 0.");
+			throw new SyntaxError("Incomplete data: A number less than 1");
+		  }
+		if (!Number.isInteger(Number(obj))) {
+			alert("Please enter an integer");
+			throw new SyntaxError("Incomplete data: Not an integer");
+		}
+		return true;
+	} catch (err) {
+		console.log("isPositiveInteger error\n", err);
+		return false;
+	}        
   };
 

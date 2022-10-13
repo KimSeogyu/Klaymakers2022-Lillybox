@@ -31,20 +31,18 @@ function VideoPlayer() {
 
   return (
     <div>
-      {getVideosIsSuccess && getVideos?.pages ? (
+      {getVideosIsSuccess && getVideos && getVideos.pages ? (
         <>
-          <section className="video-section">
-            {" "}
             {getVideos.pages.map((page) => {
               const result = page.result;
               return (
-                result &&
+                result ? 
                 result.map((item: ILillyVideo) => {
                   return (
+                  <section className="video-section" key={item.id}>
                     <article
                       className="video-container"
                       ref={ref}
-                      key={item.id}
                     >
                       <Link
                         href={{
@@ -102,14 +100,16 @@ function VideoPlayer() {
                         </div>
                       </div>
                     </article>
+                  </section>
                   );
                 })
-              );
+              : <>
+              <section className="video-section" />
+              <div className="flex justify-center">
+                <div> No videos </div>
+              </div>
+            </>);
             })}
-          </section>
-          <div className="flex justify-center ...">
-            <div> • </div>
-          </div>
         </>
       ) : (
         <>

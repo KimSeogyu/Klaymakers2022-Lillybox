@@ -132,7 +132,7 @@ export const callDontaion = async (
   }
 };
 
-export const callFlushKlayBalance = async (amount: any, lilAmount: any) => {
+export const callFlushDonationReward = async (amount: any, lilAmount: any) => {
   try {
     const flag = await guard()
     if (flag) {
@@ -148,7 +148,7 @@ export const callFlushKlayBalance = async (amount: any, lilAmount: any) => {
           from: account,
           gas: 500000,
         },
-        "flushKlayBalance",
+        "flushDonationReward",
         peb,
         lilAmount
       );
@@ -156,7 +156,7 @@ export const callFlushKlayBalance = async (amount: any, lilAmount: any) => {
     }
   } catch (error) {
     console.error(error);
-    throw new Error(`callFlushKlayBalance Error ${error}`);
+    throw new Error(`callFlushDonationReward Error ${error}`);
   }
 };
 

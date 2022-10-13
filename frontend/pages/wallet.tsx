@@ -13,7 +13,7 @@ import {
   callFlushReward,
   callShowLil,
   callFlushUnstakePendingBalance,
-  callFlushKlayBalance,
+  callFlushDonationReward,
   isApprovedForAll,
 } from "../lib/contract";
 import {
@@ -64,7 +64,7 @@ export default function Wallet() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const { myAccount, myNickname } = userInfoStore();
-  const [myKlayBalance, setmyKlayBalance] = useState("");
+  const [myDonationReward, setMyDonationReward] = useState("");
   const [myLil, setMyLil] = useState("");
   const [modal, setModal] = useState<IModal>({
     title: "",
@@ -95,7 +95,7 @@ export default function Wallet() {
       const caver = new Caver();
       const Wallet = await callShowWallet();
       const lil = await callShowLil();
-      setmyKlayBalance(`${caver.utils.fromPeb(Wallet.klayBalance)}`);
+      setMyDonationReward(`${caver.utils.fromPeb(Wallet.donationReward)}`);
       setMyLil(`${caver.utils.fromPeb(lil)}`);
     } catch (error) {
       console.log("myWallet error\n", error);
@@ -168,7 +168,7 @@ export default function Wallet() {
         const receipt = await callFlushUnstakePendingBalance(index);
         alert(`Success`);
         const Wallet = await callShowWallet();
-        setmyKlayBalance(`${caver.utils.fromPeb(Wallet.klayBalance)}`);
+        setMyDonationReward(`${caver.utils.fromPeb(Wallet.donationReward)}`);
         console.log("flushUnstakePending", receipt);
       }
     } catch (error) {
@@ -179,18 +179,18 @@ export default function Wallet() {
     myWallet();
     myTable();
   };
-  const flushKlayBalance = async () => {
+  const flushDonationReward = async () => {
     try {
       const caver = new Caver();
-      const receipt = await callFlushKlayBalance(amount, lilAmount);
+      const receipt = await callFlushDonationReward(amount, lilAmount);
       const Wallet = await callShowWallet();
-      setmyKlayBalance(`${caver.utils.fromPeb(Wallet.klayBalance)}`);
+      setMyDonationReward(`${caver.utils.fromPeb(Wallet.donationReward)}`);
       const lil = await callShowLil();
       setMyLil(`${caver.utils.fromPeb(lil)}`);
       alert(`Success`);
       console.log("flushUnstakePending", receipt);
     } catch (error) {
-      console.log("flushKlayBalance error\n", error);
+      console.log("flushDonationReward error\n", error);
       alert(`Transaction Failed`);
     }
     setIndex([]);
@@ -252,7 +252,7 @@ export default function Wallet() {
                   <ModalButton onClick={() => setModalOpen(false)}>
                     Cancle
                   </ModalButton>
-                  <ModalButton onClick={() => callFunction !== 0 ? (callFunction === 1 ? stake() : flushKlayBalance()) : null}>Confirm</ModalButton>
+                  <ModalButton onClick={() => callFunction !== 0 ? (callFunction === 1 ? stake() : flushDonationReward()) : null}>Confirm</ModalButton>
                 </ButtonGroup>
               </ModalView>
             </ModalBackdrop>
@@ -263,7 +263,7 @@ export default function Wallet() {
               <Avatar name="Lilly0" size={"50"} round={true} />
             </Text>
             <Text>Nickname: {myNickname}</Text>
-            <Text>{myKlayBalance} KLAY</Text>
+            <Text>{myDonationReward} KLAY</Text>
             <Text>{myLil} LIL</Text>
           </WalletInfo>
           <Hr />

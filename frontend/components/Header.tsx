@@ -55,7 +55,7 @@ function Header({ toggleSidebar, isMounted }: any) {
     sessionStorage.setItem("loginNickname", userInfo.nickname.toString());
   }
   const LoginHandler = async () => {
-    if (window.klaytn === undefined) {
+    if (!window.klaytn) {
       alert(
         "Please install kaikas!\nURL: https://chrome.google.com/webstore/detail/kaikas/jblndlipeogpafnldhgmapagcccfchpi"
       );
@@ -73,13 +73,13 @@ function Header({ toggleSidebar, isMounted }: any) {
             alert("Please enter valid nickname");
             return;
           }
-          const result = await AuthAPI.insertUser(account.toString(), nickname);
+          let result = await AuthAPI.insertUser(account.toString(), nickname);
           if (result === null) {
             alert("Already exists")
             continue;
           }
           message = result;
-		  await setApprovalForAll();
+		      await setApprovalForAll();
         }
         if (message === null)
          return ;
@@ -108,7 +108,7 @@ function Header({ toggleSidebar, isMounted }: any) {
       const Wallet = await callShowWallet();
       console.log(Wallet);
       alert(`
-      Klay Balance : ${caver.utils.fromPeb(Wallet.klayBalance)}
+      Klay Balance : ${caver.utils.fromPeb(Wallet.donationReward)}
       `);
     } catch (error) {
       console.log("showWallet Error",error);

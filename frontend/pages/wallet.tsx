@@ -15,6 +15,7 @@ import {
   callFlushUnstakePendingBalance,
   callFlushDonationReward,
   isApprovedForAll,
+  guard,
 } from "../lib/contract";
 import {
   WalletWrapper,
@@ -66,8 +67,8 @@ export default function Wallet() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const { myAccount, myNickname } = userInfoStore();
-  const [myDonationReward, setMyDonationReward] = useState("");
-  const [myLil, setMyLil] = useState("");
+  const [myDonationReward, setMyDonationReward] = useState("0");
+  const [myLil, setMyLil] = useState("0");
   const [myStakeBalance, setMyStakeBalance] = useState(0);
   const [modal, setModal] = useState<IModal>({
     title: "",
@@ -104,10 +105,13 @@ export default function Wallet() {
   const myWallet = async () => {
     try {
       const caver = new Caver();
-      const Wallet = await callShowWallet();
-      const lil = await callShowLil();
-      setMyDonationReward(`${caver.utils.fromPeb(Wallet.donationReward)}`);
-      setMyLil(`${caver.utils.fromPeb(lil)}`);
+      const flag = await guard();
+      if (flag) {
+        const Wallet = await callShowWallet();
+        const lil = await callShowLil();
+        setMyDonationReward(`${caver.utils.fromPeb(Wallet.donationReward)}`);
+        setMyLil(`${caver.utils.fromPeb(lil)}`);
+      }
     } catch (error) {
       console.log("myWallet error\n", error);
     }

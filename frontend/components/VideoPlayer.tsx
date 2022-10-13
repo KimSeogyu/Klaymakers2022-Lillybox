@@ -33,11 +33,11 @@ function VideoPlayer() {
     <div>
       {getVideosIsSuccess && getVideos && getVideos.pages ? (
         <>
-          {getVideos.pages.map((page) => {
+          {getVideos.pages.map((page, idx) => {
             const result = page.result;
             return (
               result ?
-                <section className="video-section" >{
+                <section className="video-section" key={idx}>{
                   result.map((item: ILillyVideo) => {
                     return (
                       <article

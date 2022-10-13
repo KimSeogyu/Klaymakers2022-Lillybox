@@ -14,6 +14,7 @@ import {
   callShowLil,
   callFlushUnstakePendingBalance,
   callFlushKlayBalance,
+  isApprovedForAll,
 } from "../lib/contract";
 import {
   WalletWrapper,

@@ -3,15 +3,16 @@ import abi from "../contract/abi/Lillybox.json";
 
 export const mintVOD = async () => {};
 
-const guard =() => {
+const guard = async () => {
   if (window.klaytn === undefined) {
     alert(
       "Please install kaikas!\nURL: https://chrome.google.com/webstore/detail/kaikas/jblndlipeogpafnldhgmapagcccfchpi"
     );
     return false;
   }
-  if (!isApprovedGuard()) {
-    setApprovalForAll();
+  const flag = await isApprovedGuard();
+  if (!flag) {
+	  await setApprovalForAll();
   }
   return true;
 };

@@ -1,3 +1,7 @@
 .idea
 .vscode
 lillybox-backend
+log/
+internal/pkg
+internal/api
+internal/app

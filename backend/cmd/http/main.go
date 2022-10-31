@@ -15,7 +15,7 @@ import (
 // @contact.email  asap0208@gmail.com
 // @license.name   Apache 2.0
 // @license.url    http://www.apache.org/licenses/LICENSE-2.0.html
-// @host           3.36.115.152:8080
+// @host           127.0.0.1:8080
 // @BasePath       /
 func main() {
 	app := http.Server{}
